@@ -12,7 +12,9 @@ on:
         description: 'Patch version'
         required: true
       message:
-        default: 'メッセージを記載して下さい'
+        default:
+          メッセージを
+          入力して下さい
 
 jobs:
   test:
