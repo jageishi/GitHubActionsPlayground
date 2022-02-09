@@ -1,0 +1,29 @@
+name: workflow_dispatch_test
+on:
+  workflow_dispatch:
+    inputs:
+      major_version:
+        description: 'Major version'
+        required: true
+      minor_version:
+        description: 'Minor version'
+        required: true 
+      patch_version:
+        description: 'Patch version'
+        required: true
+      message:
+        default: 'メッセージを記載して下さい'
+
+jobs:
+  test:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Echo inputs
+        run: |
+          echo $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
+          echo $MESSAGE
+        env:
+          MAJOR_VERSION: ${{ github.event.inputs.major_version }}
+          MINOR_VERSION: ${{ github.event.inputs.minor_version }}
+          PATCH_VERSION: ${{ github.event.inputs.patch_version }}
+          MESSAGE: ${{ github.event.inputs.message }}
