@@ -42,5 +42,5 @@ jobs:
           MINOR_VERSION: ${{ github.event.inputs.minor_version }}
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NAME: ${{ github.event.sender.name }}
-          EMAIL: ${{ github.event.sender.email }}
+          NAME: ${{ github.sender.name }}
+          EMAIL: ${{ github.sender.email }}
