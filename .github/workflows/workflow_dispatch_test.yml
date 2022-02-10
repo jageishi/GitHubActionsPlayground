@@ -26,4 +26,5 @@ jobs:
           echo ${{ github.event.inputs.message }}
       - name: Checkout
         uses: checkout/actions@v2
+      - name: Status
         run: git status
