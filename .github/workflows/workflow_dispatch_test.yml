@@ -19,10 +19,6 @@ jobs:
   test:
     runs-on:  ubuntu-latest
     steps:
-      - name: Echo inputs
-        run: |
-          echo ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}
-          echo ${{ github.event.inputs.message }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create Branch
