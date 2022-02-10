@@ -26,5 +26,17 @@ jobs:
           echo ${{ github.event.inputs.message }}
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Git Log
-        run: git log
+      - name: Create Branch
+        run: |
+          echo $VERSION
+          echo $MESSAGE
+          echo $BRANCH_NAME
+          #git checkout -b BRANCH_NAME
+          #echo $VERSION > version.txt
+          #echo $MESSAGE > message.txt
+          #git commit -m "Update to $VERSION" -a
+          #git push 
+        env: 
+          VERSION: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }} > version.txt
+          MESSAGE: ${{ github.event.inputs.message }}
+          BRANCH_NAME: $(printf "feature/update-to-v%02d%02d%02d\n" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION)
