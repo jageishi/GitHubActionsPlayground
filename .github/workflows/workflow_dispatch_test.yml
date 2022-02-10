@@ -13,8 +13,7 @@ on:
         required: true
       message:
         default:
-          メッセージを
-          入力して下さい
+          メッセージを入力して下さい
 
 jobs:
   test:
@@ -37,7 +36,7 @@ jobs:
           echo $MESSAGE > message.txt
           git commit -m "Update to $VERSION" -a
           git push origin $branchName
-          gh pr create --draft --title "GitHubActionsからPRを作成" --body "本文ですよー"
+          gh pr create --draft --title "GitHubActionsからPRを作成" --body "$MESSAGE"
         env: 
           VERSION: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}
           MESSAGE: ${{ github.event.inputs.message }}
