@@ -27,8 +27,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Branch
         run: |
-          echo $NAME
-          echo $EMAIL
+          git config use.name github-actions
+          git config user.email github-actions@github.com
           git checkout -b $branchName
           echo $VERSION > version.txt
           echo $MESSAGE > message.txt
@@ -42,5 +42,3 @@ jobs:
           MINOR_VERSION: ${{ github.event.inputs.minor_version }}
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NAME: ${{ github.sender.name }}
-          EMAIL: ${{ github.sender.email }}
