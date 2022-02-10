@@ -27,8 +27,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Branch
         run: |
-          git config user.name ${{ github.event.pusher.name }}
-          git config user.email ${{ github.event.pusher.email }}
+          echo ${{ github.event.pusher.name }}
+          echo ${{ github.event.pusher.email }}
           git checkout -b $branchName
           echo $VERSION > version.txt
           echo $MESSAGE > message.txt
