@@ -35,4 +35,7 @@ jobs:
         env: 
           VERSION: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}
           MESSAGE: ${{ github.event.inputs.message }}
+          MAJOR_VERSION: ${{ github.event.inputs.major_version }}
+          MINOR_VERSION: ${{ github.event.inputs.minor_version }}
+          PATCH_VERSION: ${{ github.event.inputs.patch_version }}
         
