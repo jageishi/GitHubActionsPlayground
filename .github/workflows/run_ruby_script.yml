@@ -1,0 +1,22 @@
+name: run_ruby_script
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Ruby 3.1.1
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.1
+      - name: Setup Bundler
+        run: |
+          set -x
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install
+      - name: Execute ruby script
+        run: ruby -e 'puts "Ruby script"'
