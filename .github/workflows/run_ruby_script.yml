@@ -1,4 +1,4 @@
-name: workflow_dispatch_test
+name: run_ruby_script
 on:
   workflow_dispatch:
 
