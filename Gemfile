@@ -2,4 +2,4 @@
 
 source "https://rubygems.org"
 
-gem "okctokit", "4.22.0"
+gem "octokit", "4.22.0"
