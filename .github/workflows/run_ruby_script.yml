@@ -13,7 +13,7 @@ jobs:
       - name: Setup Bundler
         run: |
           set -x
-          pwd
+          ls
           gem install bundler
           bundle config path vendow/bundle
           bundle install
