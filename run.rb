@@ -9,4 +9,4 @@ tags = client.tags(repo)
 # 最新のreleaseタグを取得する
 latest_release_tag = tags.find{ |t| t.name.start_with?("release") }
 
-puts latest_release_tag
+puts latest_release_tag.commit.sha
