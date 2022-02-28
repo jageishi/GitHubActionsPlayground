@@ -6,6 +6,8 @@ jobs:
   run:
     runs-on:  ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
       - name: Setup Ruby 3.1.1
         uses: ruby/setup-ruby@v1
         with:
@@ -13,7 +15,6 @@ jobs:
       - name: Setup Bundler
         run: |
           set -x
-          ls
           gem install bundler
           bundle config path vendor/bundle
           bundle install
