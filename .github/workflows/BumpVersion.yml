@@ -52,7 +52,7 @@ jobs:
           git config user.email github-actions@github.com
           branchName=$(printf "feature/update-to-v%02d%02d%02d\n" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION)
           git checkout -b $branchName
-          git add release_note.txt versions.txt
+          git add release_note.txt version.txt
           git commit -m "Update to $VERSION"
           git push origin $branchName
           gh pr create --title "バージョン$VERSIONに更新" --body $(cat pull_request_message.txt)
