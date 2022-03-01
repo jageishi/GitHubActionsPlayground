@@ -39,4 +39,20 @@ jobs:
       - name: Update release note
         env:
           REPOSITORY: ${{ github.repository }}
-        run: bundle exec ruby run.rb
+        run: bundle exec ruby update_release_note.rb
+      - name: Create pull request
+        env:
+          VERSION: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}
+          MAJOR_VERSION: ${{ github.event.inputs.major_version }}
+          MINOR_VERSION: ${{ github.event.inputs.minor_version }}
+          PATCH_VERSION: ${{ github.event.inputs.patch_version }}
+        run: |
+          set -x
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          branchName=$(printf "feature/update-to-v%02d%02d%02d\n" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION)
+          git checkout -b $branchName
+          git add release_note.txt versions.txt
+          git commit -m "Update to $VERSION"
+          git push origin $branchName
+          gh pr create --title "バージョン$VERSIONに更新" --body $(cat pull_request_message.txt)
