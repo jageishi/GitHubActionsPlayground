@@ -11,10 +11,17 @@ latest_release_tag = tags.find { |t| t.name.start_with?('release') }
 # 最新のreleaseタグ以降のコミットを取得する
 commits = []
 page = 1
+isBreak = false
 while true
-  temp = client.commits(repo, { :per_page => 100, :page => page })
-  commits.concat(temp)
-  break if temp.any? { |i| i.sha == latest_release_tag.commit.sha }
+  client.commits(repo, { :per_page => 100, :page => page }).each do |i|
+    if i.sha == latest_release_tag.commit.sha
+      isBreak = true
+      break
+    else
+      commits << i
+    end
+  end
+  break if isBreak
   page += 1
 end
 # マージコミットのみを取得する
@@ -22,6 +29,8 @@ merged_commits = commits.filter { |i| i.commit.message.start_with?('Merge pull r
 # マージされたプルリクエストを取得する
 merged_pulls = merged_commits.map { |i| client.commit_pulls(repo, i.sha) }.flatten
 
-merged_pulls.each do |i|
-  puts "・ #{i.title}"
+File.open("release_note.txt", mode = "w") do |f|
+  merged_pulls.each do |i|
+    f.write("・#{i.title}\n")
+  end
 end
