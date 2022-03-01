@@ -1,0 +1,42 @@
+name: BumpVersion
+on:
+  workflow_dispatch:
+    inputs:
+      major_version:
+        description: 'Major version'
+        required: true
+      minor_version:
+        description: 'Minor version'
+        required: true
+      patch_version:
+        description: 'Patch version'
+        required: true
+
+jobs:
+  run:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Ruby 3.1.1
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.1
+      - name: Setup Bundler
+        run: |
+          set -x
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install
+      - name: Change versions
+        run: |
+          set -x
+          sed -i -e 's/    versionCode \([0-9]*\)/echo \"    versionCode\" $((\1 + 1))/eg' version.txt
+          sed -i -e 's/    major = \([0-9]*\)/echo \"    major =\" ${{ github.event.inputs.major_version }}/eg' version.txt
+          sed -i -e 's/    minor = \([0-9]*\)/echo \"    minor =\" ${{ github.event.inputs.minor_version }}/eg' version.txt
+          sed -i -e 's/    patch = \([0-9]*\)/echo \"    patch =\" ${{ github.event.inputs.patch_version }}/eg' version.txt
+          cat version.txt
+      - name: Execute ruby script
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: bundle exec ruby run.rb
