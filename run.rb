@@ -11,10 +11,17 @@ latest_release_tag = tags.find { |t| t.name.start_with?('release') }
 # 最新のreleaseタグ以降のコミットを取得する
 commits = []
 page = 1
+isBreak = false
 while true
-  temp = client.commits(repo, { :per_page => 100, :page => page })
-  commits.concat(temp)
-  break if temp.any? { |i| i.sha == latest_release_tag.commit.sha }
+  client.commits(repo, { :per_page => 100, :page => page }).each do |i|
+    if i.sha == latest_release_tag.commit.sha
+      isBreak = true
+      break
+    else
+      commits << i
+    end
+  end
+  break if isBreak
   page += 1
 end
 # マージコミットのみを取得する
