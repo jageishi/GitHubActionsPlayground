@@ -34,3 +34,12 @@ File.open("release_note.txt", mode = "w") do |f|
     f.write("・#{i.title}\n")
   end
 end
+
+File.open("pull_request_message.txt", mode = "w") do |f|
+  f.write(<<~MESSAGE)
+    # 変更点
+
+    #{merged_pulls.map { |i| "- ##{i.number}" }.join("\n")}
+  MESSAGE
+end
+
