@@ -22,6 +22,8 @@ merged_commits = commits.filter { |i| i.commit.message.start_with?('Merge pull r
 # マージされたプルリクエストを取得する
 merged_pulls = merged_commits.map { |i| client.commit_pulls(repo, i.sha) }.flatten
 
-merged_pulls.each do |i|
-  puts "・ #{i.title}"
+File.open("release_note.txt", mode = "w") do |f|
+  merged_pulls.each do |i|
+    f.write("・#{i.title}\n")
+  end
 end
