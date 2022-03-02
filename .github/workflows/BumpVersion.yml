@@ -15,19 +15,16 @@ on:
 jobs:
   run:
     runs-on:  ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: .github/workflows/gemfiles/BumpVersion.gemfile
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Setup Ruby 3.1.1
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.1
-      - name: Setup Bundler
-        run: |
-          set -x
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle install
+          bundler-cache: true
       - name: Update versions
         run: |
           set -x
@@ -35,7 +32,6 @@ jobs:
           sed -i -e 's/    major = \([0-9]*\)/echo \"    major =\" ${{ github.event.inputs.major_version }}/eg' version.txt
           sed -i -e 's/    minor = \([0-9]*\)/echo \"    minor =\" ${{ github.event.inputs.minor_version }}/eg' version.txt
           sed -i -e 's/    patch = \([0-9]*\)/echo \"    patch =\" ${{ github.event.inputs.patch_version }}/eg' version.txt
-          cat version.txt
       - name: Update release note
         env:
           REPOSITORY: ${{ github.repository }}
