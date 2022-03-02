@@ -42,7 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           REPOSITORY: ${{ github.repository }}
-        run: bundle exec ruby update_release_note.rb
+        run: bundle exec ruby .github/workflows/scripts/update_release_note.rb
       - name: Create pull request
         env:
           VERSION: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}
