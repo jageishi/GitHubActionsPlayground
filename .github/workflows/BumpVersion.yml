@@ -42,7 +42,7 @@ jobs:
           MAJOR_VERSION: ${{ github.event.inputs.major_version }}
           MINOR_VERSION: ${{ github.event.inputs.minor_version }}
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           set -x
           git config user.name github-actions
