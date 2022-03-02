@@ -53,8 +53,8 @@ jobs:
           # GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           set -x
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           branchName=$(printf "feature/update-to-v%02d%02d%02d\n" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION)
           git checkout -b $branchName
           git add release_note.txt version.txt
