@@ -32,8 +32,15 @@ jobs:
           sed -i -e 's/    major = \([0-9]*\)/echo \"    major =\" ${{ github.event.inputs.major_version }}/eg' version.txt
           sed -i -e 's/    minor = \([0-9]*\)/echo \"    minor =\" ${{ github.event.inputs.minor_version }}/eg' version.txt
           sed -i -e 's/    patch = \([0-9]*\)/echo \"    patch =\" ${{ github.event.inputs.patch_version }}/eg' version.txt
+      - name: Generate github token
+        id: generate_token
+        uses: tibdex/github-app-token@7ce9ffdcdeb2ba82b01b51d6584a6a85872336d4
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Update release note
         env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           REPOSITORY: ${{ github.repository }}
         run: bundle exec ruby update_release_note.rb
       - name: Create pull request
@@ -42,7 +49,8 @@ jobs:
           MAJOR_VERSION: ${{ github.event.inputs.major_version }}
           MINOR_VERSION: ${{ github.event.inputs.minor_version }}
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          # GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           set -x
           git config user.name github-actions
