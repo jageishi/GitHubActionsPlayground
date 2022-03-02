@@ -26,8 +26,8 @@ while true
 end
 # マージコミットのみを取得する
 merged_commits = commits.filter { |i| i.commit.message.start_with?('Merge pull request #') }
-# マージされたプルリクエストを取得する
-merged_pulls = merged_commits.map { |i| client.commit_pulls(repo, i.sha) }.flatten
+# mainブランチにマージされたプルリクエストを取得する
+merged_pulls = merged_commits.map { |i| client.commit_pulls(repo, i.sha) }.flatten.filter { |i| i.base.ref == 'main' }
 
 File.open("release_note.txt", mode = "w") do |f|
   merged_pulls.each do |i|
