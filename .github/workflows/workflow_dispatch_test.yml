@@ -3,17 +3,14 @@ on:
   workflow_dispatch:
     inputs:
       major_version:
-        description: 'Major version'
+        description: 'Major version ※半角数字を入力して下さい'
         required: true
       minor_version:
-        description: 'Minor version'
+        description: 'Minor version ※半角数字を入力して下さい'
         required: true 
       patch_version:
-        description: 'Patch version'
+        description: 'Patch version ※半角数字を入力して下さい'
         required: true
-      message:
-        default:
-          メッセージを入力して下さい
 
 jobs:
   test:
@@ -23,6 +20,22 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+      - name: Check inputs
+        run: |
+          if ! expr "${{ github.event.inputs.major_version }}" : "^[0-9]*$"; then
+            echo "Major version is invalid."
+            exit 1
+          fi
+
+          if ! expr "${{ github.event.inputs.minor_version }}" : "^[0-9]*$"; then
+            echo "Minor version is invalid."
+            exit 2
+          fi
+
+          if ! expr "${{ github.event.inputs.patch_version }}" : "^[0-9]*$"; then
+            echo "Patch version is invalid."
+            exit 3
+          fi
       - name: Check branch
         run: |
           set -x
