@@ -59,6 +59,6 @@ jobs:
           git checkout -b $branchName
           git add release_note.txt version.txt
           version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
-          git commit -m "Update to $version
+          git commit -m "Update to $version"
           git push origin $branchName
           gh pr create --title "バージョン$versionに更新" --body "$(cat pull_request_message.txt)"
