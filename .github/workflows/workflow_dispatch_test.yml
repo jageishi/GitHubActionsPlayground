@@ -21,22 +21,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Create Branch
+        with:
+          ref: master
+      - name: Check branch
         run: |
-          set -x
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          branchName=$(printf "feature/update-to-v%02d%02d%02d\n" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION)
-          git checkout -b $branchName
-          echo $VERSION > version.txt
-          echo $MESSAGE > message.txt
-          git commit -m "Update to $VERSION" -a
-          git push origin $branchName
-          gh pr create --draft --title "GitHubActionsからPRを作成" --body "$MESSAGE"
-        env: 
-          VERSION: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}
-          MESSAGE: ${{ github.event.inputs.message }}
-          MAJOR_VERSION: ${{ github.event.inputs.major_version }}
-          MINOR_VERSION: ${{ github.event.inputs.minor_version }}
-          PATCH_VERSION: ${{ github.event.inputs.patch_version }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git branch
+
