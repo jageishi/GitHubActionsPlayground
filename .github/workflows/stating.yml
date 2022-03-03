@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: master
+          ref: main
       - name: Merge master into release and push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
