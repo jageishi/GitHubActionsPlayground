@@ -49,8 +49,8 @@ jobs:
       - name: Create pull request
         env:
           VERSION: $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
-          # GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          # GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           REPOSITORY: ${{ github.repository }}
         run: |
           set -x
