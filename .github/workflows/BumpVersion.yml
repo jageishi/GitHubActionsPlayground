@@ -62,4 +62,4 @@ jobs:
           version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
           git commit -m "Update to $version"
           git push origin $branchName
-          BRANCH_NAME=$branchName bundle exec ruby ./github/workflows/scripts/create_pull_request.rb
+          BRANCH_NAME=$branchName bundle exec ruby .github/workflows/scripts/create_pull_request.rb
