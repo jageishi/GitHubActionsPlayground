@@ -51,6 +51,7 @@ jobs:
           VERSION: $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
           # GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           set -x
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -61,4 +62,4 @@ jobs:
           version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
           git commit -m "Update to $version"
           git push origin $branchName
-          gh pr create --title "バージョン$versionに更新" --body "$(cat pull_request_message.txt)"
+          BRANCH_NAME=$branchName bundle exec ruby ./github/workflows/scripts/create_pull_request.rb
