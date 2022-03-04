@@ -1,4 +1,4 @@
-name: OnPullRequest
+name: OnPush
 on:
   push:
     branches:
