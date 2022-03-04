@@ -1,0 +1,12 @@
+name: OnPullRequest
+on:
+  push:
+    branches:
+      - staging
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: |
+          echo staging
