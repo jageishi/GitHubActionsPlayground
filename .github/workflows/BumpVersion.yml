@@ -43,7 +43,7 @@ jobs:
           private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Update release note
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           REPOSITORY: ${{ github.repository }}
         run: bundle exec ruby .github/workflows/scripts/update_release_note.rb
       - name: Create pull request
@@ -51,7 +51,6 @@ jobs:
           VERSION: $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           # GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          REPOSITORY: ${{ github.repository }}
         run: |
           set -x
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -62,4 +61,4 @@ jobs:
           version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
           git commit -m "Update to $version"
           git push origin $branchName
-          BRANCH_NAME=$branchName bundle exec ruby .github/workflows/scripts/create_pull_request.rb
+          gh pr create --title "バージョン$versionに更新" --body "$(cat pull_request_message.txt)"
