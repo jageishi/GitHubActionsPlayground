@@ -6,11 +6,18 @@ jobs:
   run:
     runs-on:  ubuntu-latest
     steps:
+      - name: Generate github token
+        id: generate_token
+        uses: r-n-i/github-app-token@v1.0.0-rni
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: main
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Merge master into release and push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
