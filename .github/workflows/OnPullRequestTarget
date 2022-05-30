@@ -1,0 +1,11 @@
+name: OnPullRequestTarget
+on:
+  pull_request_target:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: |
+          echo pull_request_target
+          echo ${{ github.event.pull_request.title }}
