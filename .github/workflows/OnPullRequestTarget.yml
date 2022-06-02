@@ -1,5 +1,8 @@
 name: OnPullRequestTarget
 on:
+  push:
+    branches:
+      - main
   pull_request_target:
 jobs:
   run:
@@ -9,8 +12,13 @@ jobs:
         run: |
           echo pull_request_target
           echo ${{ github.event.pull_request.title }}
-      - uses: actions/checkout@v2
+      - name: Checkout PR
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
+      - name: Checkout
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/checkout@v2
       - run: cat version.txt
