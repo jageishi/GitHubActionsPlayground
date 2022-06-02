@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Echo
         run: |
-          echo pull_request_target
+          echo pull_request_target changed
           echo ${{ github.event.pull_request.title }}
       - name: Checkout PR
         if: ${{ github.event_name == 'pull_request_target' }}
