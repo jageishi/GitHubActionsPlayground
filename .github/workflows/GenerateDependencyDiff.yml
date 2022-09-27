@@ -1,6 +1,7 @@
 name: Generate dependency diff
 
 on:
+  push:
   pull_request:
 
 jobs:
@@ -20,7 +21,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: "Dependency diff (差分を確認してください):"
       - uses: r-n-i/create-or-update-comment@main
-        if: ${{ steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
+        if: ${{ github.event_name == 'pull_request' && steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
         with:
           body: |
             Dependency diff (差分を確認してください):
