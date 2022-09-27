@@ -16,15 +16,15 @@ jobs:
           fetch-depth: 0
       - id: dependency-diff
         name: Generate dependency diff
-        uses: r-n-i/dependency-tree-diff-action@master
+        uses: usefulness/dependency-tree-diff-action@v1
         if: ${{ github.event_name == 'pull_request' }}
-      - uses: r-n-i/find-comment@main
+      - uses: peter-evans/find-comment@v1
         if: ${{ steps.dependency-diff.conclusion != 'skipped' }}
         id: find-comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: "Dependency diff (差分を確認してください):"
-      - uses: r-n-i/create-or-update-comment@main
+      - uses: peter-evans/create-or-update-comment@v1
         if: ${{ steps.find-comment.conclusion != 'skipped' && steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
         with:
           body: |
