@@ -18,7 +18,7 @@ jobs:
         id: find_comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body-includes: Dependency diff
+          body-includes: "Dependency diff (差分を確認してください):"
       - uses: peter-evans/create-or-update-comment@v1
         if: ${{ steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
         with:
