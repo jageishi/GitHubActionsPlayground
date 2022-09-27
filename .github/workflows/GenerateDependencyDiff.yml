@@ -17,7 +17,7 @@ jobs:
       - id: dependency-diff
         name: Generate dependency diff
         uses: r-n-i/dependency-tree-diff-action@master
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' }}
       - uses: r-n-i/find-comment@main
         if: ${{ steps.dependency-diff.conclusion != 'skipped' }}
         id: find-comment
