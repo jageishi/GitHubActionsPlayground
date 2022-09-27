@@ -6,6 +6,9 @@ repo = ENV['REPOSITORY']
 client = Octokit::Client.new(:access_token => ENV['GITHUB_TOKEN'])
 # タグ一覧を取得する
 tags = client.tags(repo)
+
+puts tags.map{|t| t.name}
+
 # 最新のreleaseタグを取得する
 latest_release_tag = tags.find { |t| t.name.start_with?('release') }
 # 最新のreleaseタグ以降のコミットを取得する
