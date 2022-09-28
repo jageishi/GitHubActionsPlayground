@@ -42,7 +42,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: peter-evans/create-or-update-comment@v1
         name: Create or upsate no diff comment
-        if: ${{ steps.create_or_update_diff.conclusion == 'skipped' &&  steps.find_comment.outputs.comment-id != null }}
+        if: ${{ steps.create_or_update_diff.conclusion == 'skipped' }}
         with:
           body: "Dependency diff: 依存ライブラリに変更はありません"
           edit-mode: replace
