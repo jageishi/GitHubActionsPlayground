@@ -44,8 +44,7 @@ jobs:
         name: Create or upsate no diff comment
         if: ${{ steps.create_or_update_diff.conclusion == 'skipped' &&  steps.find_comment.outputs.comment-id != null }}
         with:
-          body: |
-            Dependency diff: 依存ライブラリに変更はありません
+          body: "Dependency diff: 依存ライブラリに変更はありません"
           edit-mode: replace
           comment-id: ${{ steps.find_comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
