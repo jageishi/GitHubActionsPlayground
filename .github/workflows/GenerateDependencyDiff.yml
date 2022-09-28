@@ -23,12 +23,13 @@ jobs:
         id: find-comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body-includes: "Dependency diff (差分を確認してください):"
+          comment-author: 'github-actions[bot]'
+          body-includes: "Dependency diff:"
       - uses: peter-evans/create-or-update-comment@v1
         if: ${{ steps.find-comment.conclusion != 'skipped' && steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
         with:
           body: |
-            Dependency diff (差分を確認してください):
+            Dependency diff:
               ```diff
               ${{ steps.dependency-diff.outputs.text-diff }}
               ```
