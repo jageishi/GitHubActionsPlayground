@@ -19,6 +19,7 @@ jobs:
         uses: usefulness/dependency-tree-diff-action@v1
         if: ${{ github.event_name == 'pull_request' }}
       - uses: peter-evans/find-comment@v1
+        name: Find comment
         if: ${{ steps.dependency-diff.conclusion != 'skipped' }}
         id: find-comment
         with:
@@ -26,6 +27,8 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: "Dependency diff:"
       - uses: peter-evans/create-or-update-comment@v1
+        name: Create or update diff comment
+        id: create_or_update_diff
         if: ${{ steps.find-comment.conclusion != 'skipped' && steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
         with:
           body: |
@@ -33,6 +36,16 @@ jobs:
               ```diff
               ${{ steps.dependency-diff.outputs.text-diff }}
               ```
+          edit-mode: replace
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: peter-evans/create-or-update-comment@v1
+        name: Create or upsate no diff comment
+        if: ${{ steps.create_or_update_diff.conclusion == 'skipped' &&  steps.find_comment.outputs.comment-id != null }}
+        with:
+          body: |
+            Dependency diff: 依存ライブラリに変更はありません
           edit-mode: replace
           comment-id: ${{ steps.find_comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
