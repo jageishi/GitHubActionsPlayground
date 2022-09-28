@@ -28,7 +28,7 @@ jobs:
       - uses: peter-evans/create-or-update-comment@v1
         name: Create or update diff comment
         id: create_or_update_diff
-        if: ${{ steps.find-comment.conclusion != 'skipped' && steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
+        if: ${{ steps.find-comment.conclusion != 'skipped' }}
         with:
           body: |
             Dependency diff:
