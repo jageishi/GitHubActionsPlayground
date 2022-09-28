@@ -24,7 +24,7 @@ jobs:
         id: find-comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body-includes: "Dependency diff:"
+          body-includes: Dependency diff
       - uses: peter-evans/create-or-update-comment@v1
         name: Create or update diff comment
         id: create_or_update_diff
