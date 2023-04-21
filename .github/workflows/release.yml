@@ -1,4 +1,4 @@
-name: 【Release】Push release
+name: 【Release】Create release pull request
 on:
   workflow_dispatch:
 
