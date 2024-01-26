@@ -11,6 +11,4 @@ jobs:
       - name: Echo
         run: |
           echo ${{ github.workflow }}-${{ github.ref }}
-          echo sleep
-          sleep 10m
           echo ${{ github.event.pull_request.title }}

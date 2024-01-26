@@ -5,20 +5,15 @@ on:
       - main
   pull_request_target:
 jobs:
-  run:
+  job-1:
     runs-on: ubuntu-latest
     steps:
       - name: Echo
         run: |
-          echo pull_request_target
-          echo ${{ github.event.pull_request.title }}
-      - name: Checkout PR
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-      - name: Checkout
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v2
-      - run: cat version.txt
+          echo job-1
+  job-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: | 
+          echo job-2
