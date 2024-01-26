@@ -12,10 +12,11 @@ jobs:
       - name: Echo
         run: |
           echo job-1
+          echo sleep 5m
   job-2:
     runs-on: ubuntu-latest
     concurrency: 
-      group: OnPullRequestTarget-job-1
+      group: OnPullRequestTarget-job-2
     steps:
       - name: Echo
         run: | 
