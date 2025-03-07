@@ -11,7 +11,15 @@ jobs:
     steps:
       - name: Echo
         run: |
-          echo job-1
+          echo job-1 > release_note.txt
+      - name: Check diff
+        run: |
+          if [! git diff --exit-code --quiet]; then
+            echo "diff"
+          else
+            echo "no-diff
+          fi
+          
   job-2:
     runs-on: ubuntu-latest
     concurrency: 
