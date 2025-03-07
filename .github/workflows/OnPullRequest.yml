@@ -12,3 +12,12 @@ jobs:
         run: |
           echo ${{ github.workflow }}-${{ github.ref }}
           echo ${{ github.event.pull_request.title }}
+          echo hogehoge > release_note.txt
+      - name: Check diff
+        run: |
+          if [! git diff --exit-code --quiet]; then
+            echo "diff"
+          else
+            echo "no-diff
+          fi
+          
