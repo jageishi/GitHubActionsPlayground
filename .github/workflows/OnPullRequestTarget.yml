@@ -17,8 +17,6 @@ jobs:
           if ! git diff --exit-code --quiet
           then
             echo "diff"
-          else
-            echo "no-diff
           fi
           
   job-2:
