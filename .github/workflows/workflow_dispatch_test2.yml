@@ -1,0 +1,14 @@
+name: workflow_dispatch_test2
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Check inputs
+        run: |
+          git branch
+          cat message.txt
