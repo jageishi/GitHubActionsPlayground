@@ -1,9 +1,7 @@
 name: Post to Slack
 
 on:
-  push:
-    branches:
-      - 'slack/**'
+  pull_request:
   workflow_dispatch:
 
 jobs:
