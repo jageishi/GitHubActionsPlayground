@@ -12,7 +12,7 @@ jobs:
       - uses: 8398a7/action-slack@v3.19.0
         with:
           status: ${{ job.status }}
-          fields: message,commit,author,ref,took,pullRequest
+          fields: message,commit,author,ref,took
           text: ${{ github.event_name == 'workflow_dispatch' && '【手動実行】' || '' }}ワークフローが実行されました
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
