@@ -1,0 +1,20 @@
+name: Post to Slack
+
+on:
+  push:
+    branches:
+      - 'slack/**'
+  workflow_dispatch:
+
+jobs:
+  notify_build_start:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: 8398a7/action-slack@v3.19.0
+        with:
+          status: ${{ job.status }}
+          fields: message,commit,author,ref,took,pullRequest
+          text: ワークフローが実行されました
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ANDROID_CD }}
