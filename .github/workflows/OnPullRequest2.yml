@@ -1,0 +1,11 @@
+name: OnPullRequest
+on:
+  pull_request:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: |
+          echo Workflow Test
