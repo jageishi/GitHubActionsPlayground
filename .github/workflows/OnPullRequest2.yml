@@ -1,4 +1,4 @@
-name: OnPullRequest
+name: OnPullRequest2
 on:
   pull_request:
 
