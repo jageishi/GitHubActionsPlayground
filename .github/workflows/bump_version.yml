@@ -2,9 +2,9 @@ name: On Milestone PR Merged
 
 on:
   pull_request:
-    types: [closed]
+    types: [ closed ]
     branches:
-      - main
+      - release
 
 jobs:
   check-and-run:
@@ -95,3 +95,8 @@ jobs:
           gh pr create \
             --title "Bump version: minor $CURRENT_MINOR → $NEW_MINOR" \
             --body "## Version Bump"
+
+  others-jobs:
+    steps:
+      - name: Echo
+        run: echo "Hello World"
