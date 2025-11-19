@@ -1,0 +1,63 @@
+name: On Milestone PR Merged
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  check-and-run:
+    # プルリクエストがマージされた場合のみ実行
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check milestone
+        id: check-milestone
+        run: |
+          MILESTONE="${{ github.event.pull_request.milestone.title }}"
+          echo "Milestone: $MILESTONE"
+
+          if [ "$MILESTONE" = "new version release" ]; then
+            echo "milestone_matched=true" >> $GITHUB_OUTPUT
+            echo "✓ Milestone 'new version release' detected"
+          else
+            echo "milestone_matched=false" >> $GITHUB_OUTPUT
+            echo "✗ Milestone does not match. Current: '$MILESTONE'"
+          fi
+
+      - name: Run tasks for new version release
+        if: steps.check-milestone.outputs.milestone_matched == 'true'
+        run: |
+          echo "==================================="
+          echo "New Version Release Workflow"
+          echo "==================================="
+          echo "PR #${{ github.event.pull_request.number }} has been merged"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "Merged by: ${{ github.event.pull_request.merged_by.login }}"
+          echo "Milestone: ${{ github.event.pull_request.milestone.title }}"
+          echo ""
+          echo "TODO: Add your release tasks here"
+          echo "- Bump version"
+          echo "- Create release tag"
+          echo "- Generate release notes"
+          echo "- Deploy to production"
+          echo "==================================="
+
+      - name: Checkout
+        if: steps.check-milestone.outputs.milestone_matched == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Bump version
+        if: steps.check-milestone.outputs.milestone_matched == 'true'
+        run: |
+          echo "Executing release tasks..."
+          # git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          # git config --local user.name "github-actions[bot]"
+          # ./scripts/bump-version.sh
+          # git tag -a "v$(cat VERSION)" -m "Release version $(cat VERSION)"
+          # git push origin --tags
