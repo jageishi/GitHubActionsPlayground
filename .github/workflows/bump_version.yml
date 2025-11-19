@@ -54,10 +54,44 @@ jobs:
 
       - name: Bump version
         if: steps.check-milestone.outputs.milestone_matched == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          echo "Executing release tasks..."
-          # git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          # git config --local user.name "github-actions[bot]"
-          # ./scripts/bump-version.sh
-          # git tag -a "v$(cat VERSION)" -m "Release version $(cat VERSION)"
-          # git push origin --tags
+          # Git設定
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # 現在のminorバージョンを取得
+          CURRENT_MINOR=$(grep "minor = " version.txt | awk '{print $3}')
+          echo "Current minor version: $CURRENT_MINOR"
+
+          # minorをインクリメント
+          NEW_MINOR=$((CURRENT_MINOR + 1))
+          echo "New minor version: $NEW_MINOR"
+
+          # バージョンアップデート用のブランチ名を生成
+          BRANCH_NAME="bump-version-minor-${NEW_MINOR}"
+          echo "Branch name: $BRANCH_NAME"
+
+          # ブランチを作成してチェックアウト
+          git checkout -b "$BRANCH_NAME"
+
+          # version.txtのminor値を更新
+          sed -i.bak "s/minor = $CURRENT_MINOR/minor = $NEW_MINOR/" version.txt
+          rm -f version.txt.bak
+
+          # 変更を確認
+          echo "Updated version.txt:"
+          cat version.txt
+
+          # 変更をコミット
+          git add version.txt
+          git commit -m "Bump minor version to $NEW_MINOR"
+
+          # ブランチをプッシュ
+          git push origin "$BRANCH_NAME"
+
+          # プルリクエストを作成
+          gh pr create \
+            --title "Bump version: minor $CURRENT_MINOR → $NEW_MINOR" \
+            --body "## Version Bump"
