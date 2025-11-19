@@ -97,6 +97,7 @@ jobs:
             --body "## Version Bump"
 
   others-jobs:
+    runs-on: ubuntu-latest
     steps:
       - name: Echo
         run: echo "Hello World"
