@@ -55,11 +55,11 @@ jobs:
       - name: Bump version
         if: steps.check-milestone.outputs.milestone_matched == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
           # Git設定
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "junageishi@gmail.com"
+          git config --local user.name "jageishi"
 
           # 現在のminorバージョンを取得
           CURRENT_MINOR=$(grep "minor = " version.txt | awk '{print $3}')
