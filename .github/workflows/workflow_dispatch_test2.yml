@@ -11,4 +11,5 @@ jobs:
       - name: Check inputs
         run: |
           git branch
+          echo patch
           cat message.txt
